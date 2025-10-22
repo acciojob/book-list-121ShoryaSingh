@@ -1,16 +1,177 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>MyBookList</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.8em;
+      font-weight: 300;
+      margin-top: 40px;
+      margin-bottom: 32px;
+      letter-spacing: 1px;
+    }
+    h1 span {
+      color: #3498db;
+      font-weight: 400;
+    }
+    .form-group {
+      width: 90%;
+      max-width: 800px;
+      margin: 0 auto 22px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+    .form-group label {
+      font-size: 1em;
+      font-weight: 400;
+      margin-bottom: 4px;
+      margin-top: 8px;
+      text-align: left;
+    }
+    .form-group input {
+      height: 30px;
+      padding: 6px 8px;
+      font-size: 1.12em;
+      border: 1px solid #dbe3ea;
+      border-radius: 3px;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .form-group input:focus {
+      border-color: #3498db;
+    }
+    .form-group button {
+      width: 120px;
+      margin-top: 4px;
+      padding: 8px 0;
+      background: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-size: 1.05em;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .form-group button:hover {
+      background: #217dbb;
+    }
+    .books-table-container {
+      width: 95%;
+      max-width: 1000px;
+      margin: 34px auto 0 auto;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 50px;
+    }
+    .table thead {
+      background: #fff;
+    }
+    .table th, .table td {
+      border-bottom: 1.5px solid #ccc;
+      padding: 12px 9px;
+      text-align: left;
+      font-size: 1.06em;
+    }
+    .table th {
+      font-weight: bold;
+      letter-spacing: 1px;
+      font-size: 1.12em;
+    }
+    .table-striped tbody tr:nth-child(even) {
+      background: #f5f7fa;
+    }
+    .delete {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 15px;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: bold;
+      outline: none;
+      display: block;
+      margin: 0 auto;
+      transition: background 0.2s;
+    }
+    .delete:hover {
+      background: #c82313;
+    }
+  </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+  <h1>My<span>Book</span>List</h1>
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input id="title" type="text" placeholder="Title">
+    <label for="author">Author</label>
+    <input id="author" type="text" placeholder="Author">
+    <label for="isbn">ISBN#</label>
+    <input id="isbn" type="text" placeholder="ISBN#">
+    <button id="submit">Add Book</button>
+  </div>
+  <div class="books-table-container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>ISBN#</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="book-list">
+      </tbody>
+    </table>
+  </div>
+  <script>
+    const titleInput = document.getElementById('title');
+    const authorInput = document.getElementById('author');
+    const isbnInput = document.getElementById('isbn');
+    const submitBtn = document.getElementById('submit');
+    const bookList = document.getElementById('book-list');
 
+    function clearFields() {
+      titleInput.value = '';
+      authorInput.value = '';
+      isbnInput.value = '';
+    }
+
+    submitBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const title = titleInput.value.trim();
+      const author = authorInput.value.trim();
+      const isbn = isbnInput.value.trim();
+      if (!title || !author || !isbn) return;
+      // Add row to table
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${title}</td>
+        <td>${author}</td>
+        <td>${isbn}</td>
+        <td><button class="delete">X</button></td>
+      `;
+      bookList.appendChild(tr);
+      clearFields();
+    });
+
+    bookList.addEventListener('click', function(e) {
+      if (e.target && e.target.classList.contains('delete')) {
+        e.target.closest('tr').remove();
+      }
+    });
+  </script>
 </body>
-
 </html>
